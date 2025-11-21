@@ -83,7 +83,7 @@ jobs:
           --project-name="${{ project }}"
           --project-version="build-${{ github.run_number }}"
           -o "${{ project }}-docker_bom.json"
-          image:tag
+          "${{ matrix.project }}:latest"
 
       - name: upload Artifacts
         uses: actions/upload-artifact@v4
@@ -119,7 +119,7 @@ jobs:
       - name: Merge previously generated sboms
         run: >
           cyclonedx merge
-          --input-files "sboms-${{matrix.project}}/${{ matrix.project }}-docker_bom.json" "sboms-${{matrix.project}}/${{ matrix.project }}-docker_bom.json"
+          --input-files "sboms-${{matrix.project}}/${{ project }}-docker_bom.json" "sboms-${{matrix.project}}/${{ project }}-docker_bom.json"
           --output-file output.json
           --name output-project-name
           --version "build-${{ github.run_number }}"
